@@ -1,41 +1,95 @@
-# Flask on Heroku
+![python](https://cloud.githubusercontent.com/assets/51578/13712821/b68a42ce-e793-11e5-96b0-d8eb978137ba.png)
 
-This project is intended to help you tie together some important concepts and
-technologies from the 12-day course, including Git, Flask, JSON, Pandas,
-Requests, Heroku, and Bokeh for visualization.
+# Heroku Buildpack: Python
 
-The repository contains a basic template for a Flask configuration that will
-work on Heroku.
+[![Build Status](https://travis-ci.com/heroku/heroku-buildpack-python.svg?branch=main)](https://travis-ci.com/heroku/heroku-buildpack-python)
 
-A [finished example](https://lemurian.herokuapp.com) that demonstrates some basic functionality.
+This is the official [Heroku buildpack](https://devcenter.heroku.com/articles/buildpacks) for Python apps.
 
-## Step 1: Setup and deploy
-- Git clone the existing template repository.
-- `Procfile`, `requirements.txt`, `conda-requirements.txt`, and `runtime.txt`
-  contain some default settings.
-- There is some boilerplate HTML in `templates/`
-- Create Heroku application with `heroku create <app_name>` or leave blank to
-  auto-generate a name.
-- (Suggested) Use the [conda buildpack](https://github.com/thedataincubator/conda-buildpack).
-  If you choose not to, put all requirements into `requirements.txt`
+Recommended web frameworks include **Django** and **Flask**, among others. The recommended webserver is **Gunicorn**. There are no restrictions around what software can be used (as long as it's pip-installable). Web processes must bind to `$PORT`, and only the HTTP protocol is permitted for incoming connections.
 
-  `heroku config:add BUILDPACK_URL=https://github.com/thedataincubator/conda-buildpack.git#py3`
+Python packages with C dependencies that are not [available on the stack image](https://devcenter.heroku.com/articles/stack-packages) are generally not supported, unless `manylinux` wheels are provided by the package maintainers (common). For recommended solutions, check out [this article](https://devcenter.heroku.com/articles/python-c-deps) for more information.
 
-  The advantages of conda include easier virtual environment management and fast package installation from binaries (as compared to the compilation that pip-installed packages sometimes require).
-  One disadvantage is that binaries take up a lot of memory, and the slug pushed to Heroku is limited to 300 MB. Another note is that the conda buildpack is being deprecated in favor of a Docker solution (see [docker branch](https://github.com/thedataincubator/flask-framework/tree/docker) of this repo for an example).
-- Deploy to Heroku: `git push heroku master`
-- You should be able to see your site at `https://<app_name>.herokuapp.com`
-- A useful reference is the Heroku [quickstart guide](https://devcenter.heroku.com/articles/getting-started-with-python-o).
+See it in Action
+----------------
+```
+$ ls
+my-application		requirements.txt	runtime.txt
 
-## Step 2: Get data from API and put it in pandas
-- Use the `requests` library to grab some data from a public API. This will
-  often be in JSON format, in which case `simplejson` will be useful.
-- Build in some interactivity by having the user submit a form which determines which data is requested.
-- Create a `pandas` dataframe with the data.
+$ git push heroku main
+Counting objects: 4, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (4/4), 276 bytes | 276.00 KiB/s, done.
+Total 4 (delta 0), reused 0 (delta 0)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Python app detected
+remote: -----> Installing python
+remote: -----> Installing pip
+remote: -----> Installing SQLite3
+remote: -----> Installing requirements with pip
+remote:        Collecting flask (from -r /tmp/build_c2c067ef79ff14c9bf1aed6796f9ed1f/requirements.txt (line 1))
+remote:          Downloading ...
+remote:        Installing collected packages: Werkzeug, click, MarkupSafe, Jinja2, itsdangerous, flask
+remote:        Successfully installed Jinja2-2.10 MarkupSafe-1.1.0 Werkzeug-0.14.1 click-7.0 flask-1.0.2 itsdangerous-1.1.0
+remote:
+remote: -----> Discovering process types
+remote:        Procfile declares types -> (none)
+remote:
+```
 
-## Step 3: Use Bokeh to plot pandas data
-- Create a Bokeh plot from the dataframe.
-- Consult the Bokeh [documentation](http://bokeh.pydata.org/en/latest/docs/user_guide/embed.html)
-  and [examples](https://github.com/bokeh/bokeh/tree/master/examples/embed).
-- Make the plot visible on your website through embedded HTML or other methods - this is where Flask comes in to manage the interactivity and display the desired content.
-- Some good references for Flask: [This article](https://realpython.com/blog/python/python-web-applications-with-flask-part-i/), especially the links in "Starting off", and [this tutorial](https://github.com/bev-a-tron/MyFlaskTutorial).
+A `requirements.txt` must be present at the root of your application's repository to deploy.
+
+To specify your python version, you also need a `runtime.txt` file - unless you are using the default Python runtime version.
+
+Current default Python Runtime: Python 3.6.12
+
+Alternatively, you can provide a `setup.py` file, or a `Pipfile`.
+Using `pipenv` will generate `runtime.txt` at build time if one of the field `python_version` or `python_full_version` is specified in the `requires` section of your `Pipfile`.
+
+Specify a Buildpack Version
+---------------------------
+
+You can specify the latest production release of this buildpack for upcoming builds of an existing application:
+
+    $ heroku buildpacks:set heroku/python
+
+
+Specify a Python Runtime
+------------------------
+
+Supported runtime options include:
+
+- `python-3.8.5`
+- `python-3.7.9`
+- `python-3.6.12`
+- `python-2.7.18`
+
+## Tests
+
+The buildpack tests use [Docker](https://www.docker.com/) to simulate
+Heroku's [stack images.](https://devcenter.heroku.com/articles/stack)
+
+To run the test suite against the default stack:
+
+```
+make test
+```
+
+Or to test against a particular stack:
+
+```
+make test STACK=heroku-16
+```
+
+To run only a subset of the tests:
+
+```
+make test TEST_CMD=tests/versions
+```
+
+The tests are run via the vendored
+[shunit2](https://github.com/kward/shunit2)
+test framework.
