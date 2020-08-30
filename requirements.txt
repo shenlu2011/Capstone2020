@@ -1,3 +1,2 @@
-docopt==0.6.2
-bob-builder==0.0.18
-boto==2.49.0
+gunicorn==19.9.0
+requests==2.20.0
