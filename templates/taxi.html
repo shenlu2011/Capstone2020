@@ -2,10 +2,10 @@
    
 
 <div class="container">
-	<script src="js/libraries/jquery/jquery.min.js"></script>
-    <script src="js/libraries/bootstrap/bootstrap.min.js"></script>
-    <script src="js/libraries/d3/d3.min.js"></script>
-    <script src="js/script.js"></script>
+	<script src="static/js/libraries/jquery/jquery.min.js"></script>
+    <script src="static/js/libraries/bootstrap/bootstrap.min.js"></script>
+    <script src="static/js/libraries/d3/d3.min.js"></script>
+    <script src="static/js/script.js"></script>
 </div>
 
 <div>
@@ -49,7 +49,7 @@ If we drive cars, we can
 </ul>
 
 <h2>Cost of Transportation</h2>
-<img src="/static/total-cost.png"></div>
+<img src="/static/images/total-cost.png"></div>
 <H3>Individual Car Ownership: $550 -600 per month</H3>
 <ul>
 	<li>Vehicle depreciation/lease $270 per month</li>
@@ -130,15 +130,15 @@ This problem is one of chanllenges at Kaggle (https://www.kaggle.com/crailtap/ta
 <h3>Data Modeling</h3>
 <p>We collect all of the taxi stands and the moves of all of the taxis every 0.25 second. We want to find the shortest path for the next move to minimize gas cost and maximize revenue. Other than the distances between taxi stands and the chances of moving from one stand to another, we also need to consider if the trip is caused by a passenger call or not.
 </p>
-<img style="with:350px;height:350px" src="/static/markov.png"></img>
+<img style="with:350px;height:350px" src="/static/images/markov.png"></img>
 <h3>Data Visualization</h3>
 <p>
 For all of existing data, we visualize all of the trips below.
-<img style="with:350px;height:350px" src="/static/trips_all.png"></img>
+<img style="with:350px;height:350px" src="/static/images/trips_all.png"></img>
 </p>
 <p>
 We also randomly select several trips and visualized them below. Most of the trips have circles and curves which are not supposed to happen and cost extra gas. That is the part we need to work on. After we use HMM to estimate the shortest path, the circles and curves can be efficiently reduced.
-<img style="with:350px;height:350px" src="/static/trips_individual.png"></img>
+<img style="with:350px;height:350px" src="/static/images/trips_individual.png"></img>
 </p>
 <h3>Experiment</h3>
 We pick several locations and use the model we trained to plan the trip for us.
@@ -155,11 +155,11 @@ We pick several locations and use the model we trained to plan the trip for us.
 <h3>Suggested Trips at Different Moments</h3>
 <p>
 By using HMM we train, we get several potential trips for different moments. 
-<img style="with:350px;height:350px" src="/static/trips_suggested_seg.png"></img>
+<img style="with:350px;height:350px" src="/static/images/trips_suggested_seg.png"></img>
 </p>
 <p>
 If we put all of the segments together, we can have the entire trips. 
-<img style="with:350px;height:350px" src="/static/trips_suggested_all.png"></img>
+<img style="with:350px;height:350px" src="/static/images/trips_suggested_all.png"></img>
 </p>
 
 </div>
