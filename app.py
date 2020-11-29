@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 
 
 
-ROOT = os.path.abspath(os.path.dirname(__file__))
+ROOT = os.path.abspath("/")
 
 
 app = Flask(__name__)
