@@ -2,8 +2,6 @@ from flask import Flask, render_template, request, redirect
 
 
 
-ROOT = os.path.abspath("/")
-
 
 app = Flask(__name__)
 
@@ -17,7 +15,7 @@ def about():
 
 @app.route('/taxi')
 def taxi():
-  return render_template('taxi.html', root=ROOT)
+  return render_template('taxi.html')
 
 
 if __name__ == '__main__':
