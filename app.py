@@ -10,5 +10,10 @@ def index():
 def about():
   return render_template('about.html')
 
+@app.route('/taxi')
+def taxi():
+  return render_template('taxi.html')
+
+
 if __name__ == '__main__':
-  app.run(port=33507)
+  app.run(debug=True)
